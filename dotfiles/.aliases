@@ -113,7 +113,7 @@ alias pumpitup="osascript -e 'set volume 7'"
 #alias hax="growlnotify -a 'Activity Monitor' 'System error' -m 'WTF R U DOIN'
 
 #Away
-alias out="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias out="osascript -e 'tell application \"System Events\" to keystroke \"q\" using {command down,control down}'"
 
 #Speedtest
 alias speedtest='/usr/local/bin/speedtest-cli'
