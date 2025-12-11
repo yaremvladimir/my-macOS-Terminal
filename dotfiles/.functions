@@ -20,3 +20,35 @@ function extract() {
                 echo "'$1' is not a valid file"
         fi  
 }
+
+function jvrs() {
+    local jvm_dir="/Library/Java/JavaVirtualMachines"
+
+    # No argument → show current version + list installed JDKs
+    if [ -z "$1" ]; then
+        echo "Current Java version:"
+        java -version 2>&1
+        echo
+        echo "JAVA_HOME=$JAVA_HOME"
+        echo
+        echo -n "Available JDK versions: "
+        ls "$jvm_dir" | sed -E 's/jdk-([0-9\.]+)\.jdk/\1/' | sort -V | tr '\n' ' '
+        echo
+        return
+    fi
+
+    # Argument provided → attempt to switch
+    local jdk_path="$jvm_dir/jdk-$1.jdk"
+
+    if [ -d "$jdk_path" ]; then
+        export JAVA_HOME="$jdk_path"
+        echo "Switched JAVA_HOME to $JAVA_HOME"
+        java -version 2>&1
+    else
+        echo "Java version is missing or incorrect: $1"
+        echo -n "Installed versions: "
+        ls "$jvm_dir" | sed -E 's/jdk-([0-9\.]+)\.jdk/\1/' | sort -V | tr '\n' ' '
+        echo
+    fi
+}
+

@@ -128,10 +128,16 @@ alias mcl='mvn clean'
 alias mclp='mvn clean package'
 
 # Goto projects folder
-alias oprj="cd ~/Documents/Work/Projects"
+alias oprj="cd ~/Developer/Projects"
 
 # Goto iCloud Drive folder
 alias idrive="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs"
 
 # Open Eclipse IDE
 alias oecl="open -n /Applications/Eclipse.app"
+
+# Open IntelliJ IDEA
+alias oidea="open -n /Applications/IntelliJ\ IDEA.app"
+
+# Unquarantine app
+alias unquarantine='sudo xattr -rd com.apple.quarantine'
