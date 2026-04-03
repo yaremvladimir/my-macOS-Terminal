@@ -41,7 +41,7 @@ function jvrs() {
     local jdk_path="$jvm_dir/jdk-$1.jdk"
 
     if [ -d "$jdk_path" ]; then
-        export JAVA_HOME="$jdk_path"
+        export JAVA_HOME="$jdk_path/Contents/Home"
         echo "Switched JAVA_HOME to $JAVA_HOME"
         java -version 2>&1
     else
@@ -50,5 +50,48 @@ function jvrs() {
         ls "$jvm_dir" | sed -E 's/jdk-([0-9\.]+)\.jdk/\1/' | sort -V | tr '\n' ' '
         echo
     fi
+}
+
+ai() {
+  echo "🤖 Copilot thinking..."
+  copilot --model gpt-5-mini -p "$*"
+}
+
+ai-int() {
+  local prompt="$*"
+  echo "🤖 Copilot thinking..."
+  copilot --model gpt-5-mini -i "$prompt"
+}
+
+
+# AI Command Analyzer Wrapper
+ai-cmd-analize() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: ai-cmd-analize <command>"
+        return 1
+    fi
+    
+    # Using $* here treats it as a single printable string
+    echo "🤖 Running: $*" 
+    echo "-----------------------------------"
+    
+    # 1. Run the command (Keep $@ here because we WANT the shell to execute separate words)
+    local output
+    output=$("$@" 2>&1)
+    
+    # 2. Print the output to the terminal so you can see it
+    if [ -z "$output" ]; then
+        echo "(No output or empty file)"
+    else
+        echo "$output"
+    fi
+    echo "-----------------------------------"
+    echo "🧠 Analyzing..."
+    
+    # 3. Inject the variable using $* so it doesn't break the prompt string into pieces
+    copilot --silent --model gpt-5-mini -p "Analyze the execution of this command. 
+Command run: $*
+Output returned:
+$output"
 }
 

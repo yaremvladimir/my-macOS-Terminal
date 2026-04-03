@@ -39,3 +39,7 @@ ${USER_COLOR}%n%{$reset_color%} %{$fg[white]%}@ \
 %{$fg[white]%}[%*] L:%L N:%i
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
+
+bindkey '^R' fzf-history-widget
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
